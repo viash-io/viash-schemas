@@ -22,15 +22,19 @@ for version_dict in versions["versions"]:
   if version == "0.7.4":
     continue
 
+  # prep dir
   dir = f"json_schemas/{version}"
 
   if not os.path.exists(dir):
     os.makedirs(dir)
   
+  # generate config schema if it doesn't exist
   config_schema_path = f"{dir}/config.schema.json"
   if not os.path.exists(config_schema_path):
+    print(f"Generating schema for version {version}")
     os.system(f"VIASH_VERSION={version} viash export json_schema --format json --output {config_schema_path}")
   
+  # generate package schema if it doesn't exist
   package_schema = f"""\
   {{
     "$schema" : "http://json-schema.org/draft-07/schema#",
@@ -39,6 +43,6 @@ for version_dict in versions["versions"]:
   """
   package_schema_path = f"{dir}/package.schema.json"
   if not os.path.exists(package_schema_path):
+    print(f"Generating package schema for version {version}")
     with open(package_schema_path, "w") as f:
       f.write(package_schema)
-
