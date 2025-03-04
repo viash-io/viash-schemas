@@ -1,5 +1,4 @@
-# github action which runs 'scripts/generate_files.py' every day and create PR with changes
-name: Generate Files
+name: Generate schemas
 
 on:
   schedule:
@@ -35,7 +34,4 @@ jobs:
           commit-message: "Update schema files"
           title: "Update schema files"
           body: "This PR was created automatically by a GitHub Action."
-          branch: "generate-files"
-          base: "main"
-          labels: "auto-merge"
           reviewers: "rcannood,Grifs"
