@@ -34,7 +34,7 @@ for version_dict in versions["versions"]:
   package_schema = f"""\
   {{
     "$schema" : "http://json-schema.org/draft-07/schema#",
-    "$ref": "https://raw.githubusercontent.com/viash-io/schemas/refs/heads/main/{config_schema_path}#/definitions/PackageConfig"
+    "$ref": "https://raw.githubusercontent.com/viash-io/viash-schemas/refs/heads/main/{config_schema_path}#/definitions/PackageConfig"
   }}
   """
   package_schema_path = f"{dir}/package.schema.json"
