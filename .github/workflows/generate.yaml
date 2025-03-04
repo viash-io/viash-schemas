@@ -1,0 +1,38 @@
+# github action which runs 'scripts/generate_files.py' every day and create PR with changes
+name: Generate Files
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Run script
+        run: python scripts/generate_files.py
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update schema files"
+          title: "Update schema files"
+          body: "This PR was created automatically by a GitHub Action."
+          branch: "generate-files"
+          base: "main"
+          labels: "auto-merge"
+          reviewers: "rcannood,Grifs"
