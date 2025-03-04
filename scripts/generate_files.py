@@ -1,10 +1,9 @@
 import json
 import os
+import shutil
 
-versions_url = "https://viash.io/versions.json"
-
-# download versions in tempfile
-versions = json.loads(os.popen(f"curl -s {versions_url}").read())
+# read versions
+versions = json.loads(os.popen(f"curl -s https://viash.io/versions.json").read())
 
 # for each version
 for version_dict in versions["versions"]:
@@ -46,3 +45,9 @@ for version_dict in versions["versions"]:
     print(f"Generating package schema for version {version}")
     with open(package_schema_path, "w") as f:
       f.write(package_schema)
+
+# copy latest schema to root
+if not os.path.exists("json_schemas/latest"):
+  os.makedirs("json_schemas/latest")
+shutil.copyfile(f"json_schemas/{versions["latest"]}/package.schema.json", "json_schemas/latest/package.schema.json")
+shutil.copyfile(f"json_schemas/{versions["latest"]}/config.schema.json", "json_schemas/latest/config.schema.json")
